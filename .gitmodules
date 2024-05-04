@@ -1,0 +1,9 @@
+[submodule "nvim"]
+	path = nvim
+	url = https://github.com/barikata1984/kickstart.nvim
+[submodule ".oh-my-zsh"]
+	path = .oh-my-zsh
+	url = https://github.com/ohmyzsh/ohmyzsh.git
+[submodule "/home/atsushi/.files/powerlevel10k"]
+	path = /home/atsushi/.files/powerlevel10k
+	url = https://github.com/romkatv/powerlevel10k.git
