@@ -13,9 +13,10 @@ config.color_scheme = "Kanagawa (Gogh)"
 config.window_background_opacity = 0.9
 
 -- Font
-config.font = wezterm.font("FiraCode Nerd Font Mono")
+config.font = wezterm.font_with_fallback({
+	"FiraCode Nerd Font Mono",
+})
 config.font_size = 11
-
 -- Custom key bindings
 config.keys = require("keybinds").keys
 config.key_tables = require("keybinds").key_tables
