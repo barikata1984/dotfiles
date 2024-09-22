@@ -1,5 +1,5 @@
-# NOTE: lines including "export" statements has been moved to .zprofile bcoz that is the
-# should-be style
+# NOTE: lines including "export" statements have been moved to .zprofile 
+# bcoz they should be considering the loading sequence of zsh teminals.
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
@@ -95,3 +95,19 @@ alias wezterm='flatpak run org.wezfurlong.wezterm'
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 source ~/.files/powerlevel10k/powerlevel10k.zsh-theme
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/atsushi/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/atsushi/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/atsushi/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/atsushi/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+## <<< conda initialize <<<
+
