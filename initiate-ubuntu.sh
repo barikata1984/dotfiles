@@ -21,7 +21,7 @@ echo -e "Please open the following URL in your web browser:\n    https://develop
 read -p "Then, enter your Ubuntu version (e.g., ubuntu2204): " ubuntu_version
 cuda_keyring_arch=$(uname -m)
 echo "cuda_keyring_arch: $cuda_keyring_arch"
-cuda_base_url="https://developer.download.nvidia.com/compute/cuda/repos/$ubuntu_version/$cuda_keyring_arch/"
+cuda_base_url="https://developer.download.nvidia.com/compute/cuda/repos/$ubuntu_version/$cuda_keyring_arch"
 latest_cuda_keyring=$(curl -s "$cuda_base_url" | grep 'cuda-keyring.*deb' | sort -rV | head -1 | sed 's/<[^>]*>//g' | sed 's/^[ \t]*//;s/[ \t]*$//')
 echo "latest_cuda_keyring: $latest_cuda_keyring"
 cuda_keyring_url="$cuda_base_url$latest_cuda_keyring"
@@ -40,8 +40,6 @@ sudo apt install wezterm
 sudo snap install nvim --classic
 # Zsh
 sudo apt install zsh
-# Nvidia driver
-sudo ubuntu-drivers install
 # Miniconda
 mkdir -p ~/miniconda3
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda3/miniconda.sh
@@ -56,8 +54,14 @@ bash install.sh FiraCode
 cd ~
 # Oh My Zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+source $HOME/.zshrc  # to export ZSH_CUSTOM
 # Powerlevel10k
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+# Nvidia driver
+kernel_version=$(echo "$(uname -v)" | tr '[:upper:]' '[:lower:]')
+if [[ ! "$lowercase_string" == *"microsoft"* ]] && [[ ! "$lowercase_string" == *"wsl"* ]]; then
+    sudo ubuntu-drivers install  # NOTE: Should not be called on WSL because it can pass through Windows
+                                 #       to use the VGA.
 
 # Configure ============================================
 # Git global config - - - - - - - - - - - - - - - - - - 

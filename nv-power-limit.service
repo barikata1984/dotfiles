@@ -1,0 +1,33 @@
+# Set power limits on all NVIDIA GPUs
+# Reference: https://www.pugetsystems.com/labs/hpc/quad-rtx3090-gpu-power-limiting-with-systemd-and-nvidia-smi-1983/
+
+# How to use:
+# Assuming this file is placed under $HOME/workspace/dotfiles/,
+# 1. Change the permission of the file with the following line
+#   sudo chmod 644 $HOME/workspace/dotfiles/nv-power-limit.service
+# 2. Make the systemd directroy if it does not exist
+#   sudo mkdir -p /usr/local/etc/systemd
+# 3. Symbolic-link the file
+#   sudo ln -s $HOME/workspace/dotfiles/nv-power-limit.service /usr/local/etc/systemd/nv-power-limit.service
+#   sudo ln -s $HOME/workspace/dotfiles/nv-power-limit.service /etc/systemd/system/nv-power-limit.service
+# 4. Start the service
+# sudo systemctl start nv-power-limit.service
+# 5. Check the service status
+#   sudo systemctl status nv-power-limit.service
+# 6. Enable the service
+#   sudo systemctl enable nv-power-limit.service
+# 7. Confirm the power limit set at the target value
+#   nvidia-smi -q -d POWER
+
+[Unit]
+Description=NVIDIA GPU Set Power Limit
+After=syslog.target systemd-modules-load.service
+ConditionPathExists=/usr/bin/nvidia-smi
+
+[Service]
+User=root
+Environment="PATH=/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin"
+ExecStart=/usr/local/sbin/nv-power-limit.sh
+
+[Install]
+WantedBy=multi-user.target

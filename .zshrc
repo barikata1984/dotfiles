@@ -110,6 +110,7 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+alias nv-vga-power-draw="nvidia-smi -q -d POWER -l 1 | grep 'Power Draw'"
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
