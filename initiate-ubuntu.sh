@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/env bash
 
 # Ensure that the remaining parts are executed on the home directory
 cd ~
@@ -7,7 +7,7 @@ mkdir -p ~/workspace
 # Install pre-requisites ===============================
 sudo apt install curl
 
-# Registrater repositories =============================
+# Register repositories ================================
 # Get general info of the machine - - - - -- - - - - - -
 keyring_arch=$(dpkg --print-architecture)
 # Brave - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -72,7 +72,7 @@ git config --global user.email $git_useremail
 # Initiate miniconda - - - - - - - - - - - - - - - - - -
 ~/miniconda3/bin/conda init bash
 ~/miniconda3/bin/conda init zsh
-# Symbolic link the dotfiles - - - - - - - - - - - - - -
+# Symbolic-link the dotfiles - - - - - - - - - - - - - -
 mv ~/.bashrc ~/.miniconda-enabled-bashrc
 mv ~/.zshrc ~/.miniconda-enabled-original-oh-my-zshrc
 ln -s ~/workspace/dotfiles/nvim ~/.config/nvim
