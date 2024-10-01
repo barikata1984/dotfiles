@@ -29,7 +29,6 @@ cuda_base_url="https://developer.download.nvidia.com/compute/cuda/repos/$ubuntu_
 latest_cuda_keyring=$(curl -s "$cuda_base_url" | grep 'cuda-keyring.*deb' | sort -rV | head -1 | sed 's/<[^>]*>//g' | sed 's/^[ \t]*//;s/[ \t]*$//')
 echo "  The latest keyring found: $latest_cuda_keyring"
 cuda_keyring_url="$cuda_base_url$latest_cuda_keyring"
-echo "cuda_keyring_url: $cuda_keyring_url"
 wget $cuda_keyring_url
 sudo dpkg -i $latest_cuda_keyring
 rm $latest_cuda_keyring
