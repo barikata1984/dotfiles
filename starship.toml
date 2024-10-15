@@ -4,11 +4,11 @@ $directory\
 $git_branch\
 $git_status\
 $fill\
+$conda\
 $time\
 $line_break\
 $character\
 """
-#$character
 
 [os]
 format = "[$symbol](bold white)"
@@ -25,6 +25,9 @@ truncation_symbol = ".../"
 truncate_to_repo = false
 read_only = "󰌾 "
 #home_symbol = " "
+
+[git_branch]
+style = "yellow"
 
 [git_status]
 disabled = false
@@ -47,4 +50,5 @@ symbol = " "
 [time]
 disabled = false
 format = " [$time]($style)"
+style = "purple"
 time_format = "%T"
