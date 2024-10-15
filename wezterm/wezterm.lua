@@ -54,7 +54,8 @@ config.window_background_opacity = 0.9
 
 -- Font
 config.font = wezterm.font_with_fallback({
-    "FiraCode Nerd Font Ret",
+    "FiraCode Nerd Font",
+    "PingFang SC",
 })
 config.font_size = 11
 -- Custom key bindings
