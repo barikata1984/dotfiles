@@ -50,6 +50,8 @@ bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
 rm ~/miniconda3/miniconda.sh
 # Oh My Zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+# Starship
+curl -sS https://starship.rs/install.sh | sh
 # Nvidia driver and FiraCode
 kernel_version=$(echo "$(uname -r)" | tr "[:upper:]" "[:lower:]")
 # Set the variable based on the condition result
@@ -84,6 +86,7 @@ git config --global user.email $git_useremail
 mkdir -p "$HOME/.config"
 ln -s "$HOME/workspace/dotfiles/nvim" "$HOME/.config/nvim"
 ln -s "$HOME/workspace/dotfiles/wezterm/" "$HOME/.config/wezterm.lua"
+ln -s "$HOME/workspace/dotfiles/starship.toml" "$HOME/.config/starship.toml"
 ln -s "$HOME/workspace/dotfiles/.condarc" "$HOME/.condarc"
 
 chmod 744 "$HOME/workspace/dotfiles/initiate.zsh"
