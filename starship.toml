@@ -23,6 +23,7 @@ Windows = "  "
 truncation_length = 5
 truncation_symbol = ".../"
 truncate_to_repo = false
+style = "blue"
 read_only = "󰌾 "
 #home_symbol = " "
 
