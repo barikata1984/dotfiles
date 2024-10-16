@@ -49,7 +49,7 @@ untracked = "?${count}"
 symbol = " "
 
 [conda]
-#symbol = "\u{1f152} "
+style = "green"
 
 [time]
 disabled = false
