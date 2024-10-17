@@ -23,19 +23,21 @@ winget install --id LLVM.LLVM --source winget
 & ([scriptblock]::Create((iwr 'https://to.loredo.me/Install-NerdFont.ps1'))) -Name fira-code
 
 # Symbolic-limnk Neovim and Wezterm configurations
-$configPath = "$env:HOMEPATH\.config"
+$configPath = "$env:USERPROFILE\.config"
 # Create the .config directory if it doesn't exist
 if (!(Test-Path -Path "$configPath")) {
   New-Item -ItemType Directory -Path "$configPath"
 }
 # Wezterm configuration
-$sourcePath = "$env:HOMEPATH\workspace\dotfiles\wezterm"
+$sourcePath = "$env:USERPROFILE\workspace\dotfiles\wezterm"
 $destinationPath = "$configPATH\wezterm"
 New-Item -ItemType SymbolicLink -Path $destinationPath -Target $sourcePath
 # Neovim configuration
-$sourcePath = "$env:HOMEPATH\workspace\dotfiles\nvim"
-$appDataLocalPath = "$env:HOMEPATH\AppData\Local"
+$sourcePath = "$env:USERPROFILE\workspace\dotfiles\nvim"
+$appDataLocalPath = "$env:USERPROFILE\AppData\Local"
 $destinationPath = "$appDataLocalPath\nvim"
 New-Item -ItemType SymbolicLink -Path $destinationPath -Target $sourcePath
 # WSL2 configuration
-New-Item -ItemType SymbolicLink -Path "$env:HOMEPATH\.wslconfig" -Value "$env:HOMEPATH\workspace\dotfiles\.wslconfig"
+New-Item -ItemType SymbolicLink -Path "$env:USERPROFILE\.wslconfig" -Value "$env:USERPROFILE\workspace\dotfiles\.wslconfig"
+# 
+# New-Item -ItemType Directory -Path "$env:USERPROFILE\workspace"

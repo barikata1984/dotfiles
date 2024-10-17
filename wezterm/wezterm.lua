@@ -1,14 +1,10 @@
 local wezterm = require("wezterm")
+local config = wezterm.config_builder()
 local launch_menu = {}
 
 if wezterm.target_triple == "x86_64-pc-windows-msvc" then
-    table.insert(launch_menu, {
-        label = "PowerShell 7",
-        args = {
-            "C:/Program Files/PowerShell/7/pwsh.exe",
-            "-NoLogo",
-        },
-    })
+    -- Spawn a PowerShell 7 in login mode
+    config.default_prog = { "pwsh.exe", "-NoLogo" }
 
     -- Find installed visual studio version(s) and add their compilation
     -- environment command prompts to the menu
@@ -45,7 +41,6 @@ else
     })
 end
 
-local config = wezterm.config_builder()
 config.launch_menu = launch_menu
 
 -- Colour
@@ -55,7 +50,6 @@ config.window_background_opacity = 0.9
 -- Font
 config.font = wezterm.font_with_fallback({
     "FiraCode Nerd Font",
-    "PingFang SC",
 })
 config.font_size = 11
 -- Custom key bindings
