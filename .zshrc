@@ -133,3 +133,5 @@ unset __conda_setup
 export PATH="/home/atsushi/.pixi/bin:$PATH"
 
 eval "$(starship init zsh)"
+
+. "$HOME/.local/bin/env"

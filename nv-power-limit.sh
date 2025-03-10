@@ -19,7 +19,7 @@
 command -v nvidia-smi &> /dev/null || { echo >&2 "nvidia-smi not found ... exiting."; exit 1; }
 
 # Set default POWER_LIMIT
-POWER_LIMIT=280  # Stack: 350, Max: 400
+POWER_LIMIT=270  # Stock: 350, Max: 400
 
 # Override default if argument is provided
 if [ $# -eq 1 ]; then

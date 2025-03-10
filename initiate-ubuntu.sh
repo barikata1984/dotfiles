@@ -1,5 +1,11 @@
 #!/bin/env bash
 
+# Git global config - - - - - - - - - - - - - - - - - -
+read -p "Input your git glogal user.name: " git_username
+read -p "Input your git glogal user.email: " git_useremail
+git config --global user.name $git_username
+git config --global user.email $git_useremail
+
 # Ensure that the remaining parts are executed on the home directory
 cd ~
 mkdir -p ~/workspace
@@ -10,10 +16,10 @@ sudo apt install curl
 # Register repositories ================================
 # Get general info of the machine - - - - -- - - - - - -
 keyring_arch=$(dpkg --print-architecture)
-# Brave - - - - - - - - - - - - - - - - - - - - - - - - 
+# Brave - - - - - - - - - - - - - - - - - - - - - - - -
 sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
 echo "deb [arch=$keyring_arch signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
-# Wezterm - - - - - - - - - - - - - - - - - - - - - - - 
+# Wezterm - - - - - - - - - - - - - - - - - - - - - - -k
 curl -fsSL https://apt.fury.io/wez/gpg.key | sudo gpg --yes --dearmor -o /usr/share/keyrings/wezterm-fury.gpg
 echo "deb [arch=$keyring_arch signed-by=/usr/share/keyrings/wezterm-fury.gpg] https://apt.fury.io/wez/ * *" | sudo tee /etc/apt/sources.list.d/wezterm.list
 # Cuda - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -74,11 +80,6 @@ if $not_on_microsoft_wsl; then
     sudo ubuntu-drivers install
 
 # Configure ============================================
-# Git global config - - - - - - - - - - - - - - - - - - 
-read -p "Input your git glogal user.name: " git_username
-read -p "Input your git glogal user.email: " git_useremail
-git config --global user.name $git_username
-git config --global user.email $git_useremail
 # Initiate miniconda - - - - - - - - - - - - - - - - - -
 "$HOME/miniconda3/bin/conda" init bash
 "$HOME/miniconda3/bin/conda" init zsh

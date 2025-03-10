@@ -39,5 +39,5 @@ $destinationPath = "$appDataLocalPath\nvim"
 New-Item -ItemType SymbolicLink -Path $destinationPath -Target $sourcePath
 # WSL2 configuration
 New-Item -ItemType SymbolicLink -Path "$env:USERPROFILE\.wslconfig" -Value "$env:USERPROFILE\workspace\dotfiles\.wslconfig"
-# 
+#
 # New-Item -ItemType Directory -Path "$env:USERPROFILE\workspace"
