@@ -86,7 +86,7 @@ if $not_on_microsoft_wsl; then
 # Symbolic-link the dotfiles - - - - - - - - - - - - - -
 mkdir -p "$HOME/.config"
 ln -s "$HOME/workspace/dotfiles/nvim" "$HOME/.config/nvim"
-ln -s "$HOME/workspace/dotfiles/wezterm/" "$HOME/.config/wezterm.lua"
+ln -s "$HOME/workspace/dotfiles/wezterm/" "$HOME/.config/wezterm"
 ln -s "$HOME/workspace/dotfiles/starship.toml" "$HOME/.config/starship.toml"
 ln -s "$HOME/workspace/dotfiles/.condarc" "$HOME/.condarc"
 
