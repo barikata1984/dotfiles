@@ -52,6 +52,12 @@ config.font = wezterm.font_with_fallback({
     "FiraCode Nerd Font",
 })
 config.font_size = 11
+
+-- IME (Japanese input)
+config.use_ime = true
+config.xim_im_name = "ibus"
+config.ime_preedit_rendering = "System"
+
 -- Custom key bindings
 config.keys = require("keybinds").keys
 
