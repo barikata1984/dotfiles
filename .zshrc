@@ -135,3 +135,14 @@ export PATH="/home/atsushi/.pixi/bin:$PATH"
 eval "$(starship init zsh)"
 
 . "$HOME/.local/bin/env"
+
+alias wezterm='flatpak run org.wezfurlong.wezterm'
+
+# Ubuntu の標準的な terminfo パスを指定
+export TERMINFO=/usr/share/terminfo
+export TERM=xterm-256color
+
+# IBus IME (Japanese input via Mozc)
+export GTK_IM_MODULE=ibus
+
+export PATH="/home/ak/.pixi/bin:$PATH"
