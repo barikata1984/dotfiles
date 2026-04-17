@@ -15,38 +15,38 @@ sudo apt install curl
 
 # Register repositories ================================
 # Get general info of the machine - - - - -- - - - - - -
-keyring_arch=$(dpkg --print-architecture)
+#keyring_arch=$(dpkg --print-architecture)
 # Brave - - - - - - - - - - - - - - - - - - - - - - - -
-sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
-echo "deb [arch=$keyring_arch signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
+#sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+#echo "deb [arch=$keyring_arch signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
 # Wezterm - - - - - - - - - - - - - - - - - - - - - - -k
-curl -fsSL https://apt.fury.io/wez/gpg.key | sudo gpg --yes --dearmor -o /usr/share/keyrings/wezterm-fury.gpg
-echo "deb [arch=$keyring_arch signed-by=/usr/share/keyrings/wezterm-fury.gpg] https://apt.fury.io/wez/ * *" | sudo tee /etc/apt/sources.list.d/wezterm.list
+#curl -fsSL https://apt.fury.io/wez/gpg.key | sudo gpg --yes --dearmor -o /usr/share/keyrings/wezterm-fury.gpg
+#echo "deb [arch=$keyring_arch signed-by=/usr/share/keyrings/wezterm-fury.gpg] https://apt.fury.io/wez/ * *" | sudo tee /etc/apt/sources.list.d/wezterm.list
 # Cuda - - - - - - - - - - - - - - - - - - - - - - - - -
-echo -e "Please open the following URL in your web browser:\n  https://developer.download.nvidia.com/compute/cuda/repos/"
-if [ -n "$ZSH_VERSION" ]; then
-  read ubuntu_version"?Then, enter your Ubuntu version (e.g., ubuntu2204)? > "
-else
-  read -p "Then, enter your Ubuntu version (e.g., ubuntu2204) > " ubuntu_version
-fi
+#echo -e "Please open the following URL in your web browser:\n  https://developer.download.nvidia.com/compute/cuda/repos/"
+#if [ -n "$ZSH_VERSION" ]; then
+#  read ubuntu_version"?Then, enter your Ubuntu version (e.g., ubuntu2204)? > "
+#else
+#  read -p "Then, enter your Ubuntu version (e.g., ubuntu2204) > " ubuntu_version
+#fi
 
-cuda_keyring_arch=$(uname -m)
-cuda_base_url="https://developer.download.nvidia.com/compute/cuda/repos/$ubuntu_version/$cuda_keyring_arch/"
-latest_cuda_keyring=$(curl -s "$cuda_base_url" | grep 'cuda-keyring.*deb' | sort -rV | head -1 | sed 's/<[^>]*>//g' | sed 's/^[ \t]*//;s/[ \t]*$//')
-echo "  The latest keyring found: $latest_cuda_keyring"
-cuda_keyring_url="$cuda_base_url$latest_cuda_keyring"
-wget $cuda_keyring_url
-sudo dpkg -i $latest_cuda_keyring
-rm $latest_cuda_keyring
+#cuda_keyring_arch=$(uname -m)
+#cuda_base_url="https://developer.download.nvidia.com/compute/cuda/repos/$ubuntu_version/$cuda_keyring_arch/"
+#latest_cuda_keyring=$(curl -s "$cuda_base_url" | grep 'cuda-keyring.*deb' | sort -rV | head -1 | sed 's/<[^>]*>//g' | sed 's/^[ \t]*//;s/[ \t]*$//')
+#echo "  The latest keyring found: $latest_cuda_keyring"
+#cuda_keyring_url="$cuda_base_url$latest_cuda_keyring"
+#wget $cuda_keyring_url
+#sudo dpkg -i $latest_cuda_keyring
+#rm $latest_cuda_keyring
 
 # Install apps =========================================
 sudo apt update
 # Brave
-sudo apt install brave-browser
+#sudo apt install brave-browser
 # Wezterm
 sudo apt install wezterm
 # Neovim
-sudo snap install nvim --classic
+#sudo snap install nvim --classic
 # Zsh
 sudo apt install zsh
 # Miniconda
@@ -87,6 +87,7 @@ if $not_on_microsoft_wsl; then
 mkdir -p "$HOME/.config"
 ln -s "$HOME/workspace/dotfiles/nvim" "$HOME/.config/nvim"
 ln -s "$HOME/workspace/dotfiles/wezterm/" "$HOME/.config/wezterm"
+ln -s "$HOME/workspace/dotfiles/ghostty" "$HOME/.config/ghostty"
 ln -s "$HOME/workspace/dotfiles/starship.toml" "$HOME/.config/starship.toml"
 ln -s "$HOME/workspace/dotfiles/.condarc" "$HOME/.condarc"
 
