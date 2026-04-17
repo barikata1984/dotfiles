@@ -142,7 +142,4 @@ alias wezterm='flatpak run org.wezfurlong.wezterm'
 export TERMINFO=/usr/share/terminfo
 export TERM=xterm-256color
 
-# IBus IME (Japanese input via Mozc)
-export GTK_IM_MODULE=ibus
-
 export PATH="/home/ak/.pixi/bin:$PATH"
