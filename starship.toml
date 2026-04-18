@@ -3,8 +3,9 @@ $os\
 $directory\
 $git_branch\
 $git_status\
-$fill\
+$custom\
 $conda\
+$fill\
 $time\
 $line_break\
 $character\
@@ -49,6 +50,33 @@ untracked = "?${count}"
 [fill]
 symbol = " "
 
+# Python 仮想環境のカスタム表示
+[custom.my_python_venv]
+description = "Python virtualenv with custom symbol"
+# Once the uv python interpreter is activeated, VIRTUAL_ENV is set. The following command 
+# verify whether the env var is set or not and, if it is set, echo the statement.
+command = """
+  echo "uv-"
+"""
+# モジュールを表示する条件: VIRTUAL_ENV 環境変数が空でない場合
+when = 'test -n "$VIRTUAL_ENV"'
+# シェル: コマンドを実行するシェルを指定 (zsh, bash など。uv や VSCode環境ならだいたいこれら)
+# shell = ["zsh", "-c"] # zsh を明示的に使う場合。多くの場合不要。
+# フォーマット: コマンドの出力をそのまま表示
+format = "via [$output]($style) "
+# スタイル (任意): 表示色などを指定
+style = "yellow" # 例: 太字の緑色
+# どこに表示するか (任意): デフォルトはよしなに配置されます
+# scan_path_ancestors = true # プロジェクトルートなどを探査する場合に
+
+# 標準の Python モジュールは無効化するか、表示内容を調整する必要があるかもしれません。
+# もし標準の [python] モジュールが仮想環境名を表示しているなら、
+# そちらの表示と重複しないように注意してください。
+# 例: 標準の Python モジュールの仮想環境表示を無効にする (もし設定している場合)
+# [python]
+# disabled = false # Python自体は有効にしておく場合
+# format = "via [${symbol}${version}]($style) " # virtualenv を含まないようにする
+
 [conda]
 style = "green"
 
@@ -57,3 +85,4 @@ disabled = false
 format = " [$time]($style)"
 style = "purple"
 time_format = "%T"
+
