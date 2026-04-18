@@ -1,0 +1,27 @@
+[Unit]
+Description=rclone mount for Google Drive (gdrive)
+# マウントする前に、マウント先のディレクトリが存在することを確認
+AssertPathIsDirectory=%h/gdrive
+# ネットワークがオンラインになるまで待機
+After=network-online.target
+
+[Service]
+Type=simple
+# 実際に実行されるマウントコマンド
+# あなたのリモート名 'gdrive:' とマウント先 '%h/gdrive' を指定
+# ExecStart行を、読み込みキャッシュを強化するオプションに置き換えます
+ExecStart=/usr/bin/rclone mount gdrive: %h/gdrive \
+  --config=%h/.config/rclone/rclone.conf \
+  --vfs-cache-mode full \
+  --dir-cache-time 10m \
+  --buffer-size 128M
+# 停止時にクリーンにアンマウントするコマンド
+ExecStop=/bin/fusermount -u %h/gdrive
+# もし何らかの理由で失敗した場合、10秒後に自動で再試行
+Restart=on-failure
+RestartSec=10
+KillMode=process
+
+[Install]
+# ログイン時に自動でサービスを開始する設定
+WantedBy=default.target
