@@ -49,6 +49,37 @@ sudo apt install wezterm
 #sudo snap install nvim --classic
 # Zsh
 sudo apt install zsh
+# Japanese input (fcitx5-mozc) - - - - - - - - - - - - -
+# Remove conflicting ibus-mozc first to avoid mozc_server contention
+# (symptom: "Conversion engine is not responding" popup)
+sudo apt remove --purge -y ibus-mozc
+sudo apt install -y fcitx5-mozc
+im-config -n fcitx5
+mkdir -p "$HOME/.config/autostart"
+cp /usr/share/applications/org.fcitx.Fcitx5.desktop "$HOME/.config/autostart/"
+cat > "$HOME/.xprofile" << 'EOF'
+export GTK_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+export XMODIFIERS=@im=fcitx
+EOF
+mkdir -p "$HOME/.config/fcitx5"
+cat > "$HOME/.config/fcitx5/profile" << 'EOF'
+[Groups/0]
+Name=Default
+Default Layout=us
+DefaultIM=mozc
+
+[Groups/0/Items/0]
+Name=keyboard-us
+Layout=
+
+[Groups/0/Items/1]
+Name=mozc
+Layout=
+
+[GroupOrder]
+0=Default
+EOF
 # Miniconda
 mkdir -p ~/miniconda3
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda3/miniconda.sh

@@ -130,7 +130,7 @@ unset __conda_setup
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 #[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-export PATH="/home/atsushi/.pixi/bin:$PATH"
+export PATH="$HOME/.pixi/bin:$PATH"
 
 eval "$(starship init zsh)"
 
@@ -142,4 +142,19 @@ alias wezterm='flatpak run org.wezfurlong.wezterm'
 export TERMINFO=/usr/share/terminfo
 export TERM=xterm-256color
 
-export PATH="/home/ak/.pixi/bin:$PATH"
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:$HOME/.lmstudio/bin"
+# End of LM Studio CLI section
+
+# Source nerfstudio autocompletions.
+if ! command -v compdef &> /dev/null; then
+    autoload -Uz compinit
+    compinit
+fi
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+
+export CLAUDE_CODE_DISABLE_AUTO_MEMORY=1
