@@ -1,0 +1,21 @@
+[workspace]
+name = "voice-input"
+version = "0.1.0"
+description = "Push-to-talk voice input using Whisper (GPU)"
+channels = ["conda-forge", "pytorch"]
+platforms = ["linux-64"]
+
+[system-requirements]
+cuda = "12"
+
+[dependencies]
+python = ">=3.11"
+numpy = "*"
+libcublas = ">=12"
+
+[pypi-dependencies]
+faster-whisper = "*"
+evdev = "*"
+
+[tasks]
+start = "python -u voice-input.py"
