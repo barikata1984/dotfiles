@@ -4,22 +4,24 @@ set -euo pipefail
 A2DP="a2dp-sink"
 HEADSET="headset-head-unit"
 
-card_info=$(pactl list cards 2>/dev/null \
-    | awk '/Name: bluez_card/{card=$2} card && /api.bluez5.connection/{conn=$3} card && /Active Profile:/{prof=$NF; print card, conn, prof; card=""; exit}')
-
-card=$(echo "$card_info" | awk '{print $1}')
-connection=$(echo "$card_info" | awk '{gsub(/"/, "", $2); print $2}')
-current=$(echo "$card_info" | awk '{print $3}')
+card=$(pactl list cards short | awk '/bluez/{print $2; exit}')
 
 if [[ -z "$card" ]]; then
     notify-send "BT Profile" "No Bluetooth audio device found"
     exit 1
 fi
 
-if [[ "$connection" != "connected" ]]; then
+bt_addr=$(echo "$card" | sed 's/bluez_card\.//;s/_/:/g')
+if ! bluetoothctl info "$bt_addr" 2>/dev/null | grep -q "Connected: yes"; then
     notify-send "BT Profile" "Bluetooth device not connected"
     exit 1
 fi
+
+current=$(pactl list cards 2>/dev/null \
+    | awk -v card="$card" '
+        $0 ~ "Name: " card { found=1 }
+        found && /Active Profile:/ { print $NF; exit }
+    ')
 
 case "$current" in
     a2dp-sink*)
