@@ -15,12 +15,14 @@ from evdev import ecodes
 MODEL_ID = "deepdml/faster-whisper-large-v3-turbo-ct2"
 WHISPER_SAMPLE_RATE = 16000
 KEYBOARD_NAME = "Lily58 Keyboard"
+IM_LANG_MAP = {"mozc": "ja", "keyboard-us": "en"}
 BT_TOGGLE_SCRIPT = Path(__file__).resolve().parent.parent / "toggle-bt-profile.sh"
 
 model = None
 recording = False
 rec_process = None
 rec_tmpfile = None
+_shutting_down = False
 
 
 def find_keyboard():
@@ -77,8 +79,17 @@ def stop_recording_and_transcribe():
         Path(tmp_path).unlink(missing_ok=True)
         return
 
-    print("Transcribing...")
-    segments, _ = model.transcribe(tmp_path)
+    lang = "ja"
+    try:
+        im = subprocess.run(
+            ["fcitx5-remote", "-n"], capture_output=True, text=True
+        ).stdout.strip()
+        lang = IM_LANG_MAP.get(im, "ja")
+    except FileNotFoundError:
+        pass
+
+    print(f"Transcribing (lang={lang}, im={im})...")
+    segments, _ = model.transcribe(tmp_path, language=lang)
     text = " ".join(seg.text.strip() for seg in segments).strip()
     Path(tmp_path).unlink(missing_ok=True)
 
@@ -111,7 +122,36 @@ def handle_key(code):
         threading.Thread(target=toggle_bt_profile, daemon=True).start()
 
 
+def cleanup_recording():
+    global rec_process, rec_tmpfile, recording
+    if rec_process is not None:
+        rec_process.terminate()
+        try:
+            rec_process.wait(timeout=3)
+        except subprocess.TimeoutExpired:
+            rec_process.kill()
+            rec_process.wait()
+        rec_process = None
+    recording = False
+    if rec_tmpfile is not None:
+        Path(rec_tmpfile.name).unlink(missing_ok=True)
+        rec_tmpfile.close()
+        rec_tmpfile = None
+
+
+def shutdown(signum, frame):
+    global _shutting_down
+    if _shutting_down:
+        return
+    _shutting_down = True
+    cleanup_recording()
+    sys.exit(0)
+
+
 def main():
+    signal.signal(signal.SIGTERM, shutdown)
+    signal.signal(signal.SIGINT, shutdown)
+
     kbd = find_keyboard()
     if kbd is None:
         print(f"Keyboard '{KEYBOARD_NAME}' not found. Available devices:")
@@ -135,12 +175,8 @@ def main():
                 for event in device.read():
                     if event.type == ecodes.EV_KEY and event.value == 1:
                         handle_key(event.code)
-    except KeyboardInterrupt:
-        pass
     finally:
-        if rec_process is not None:
-            rec_process.send_signal(signal.SIGINT)
-            rec_process.wait()
+        cleanup_recording()
         selector.close()
 
 
