@@ -148,36 +148,45 @@ def shutdown(signum, frame):
     sys.exit(0)
 
 
+def wait_for_keyboard():
+    import time
+    while True:
+        kbd = find_keyboard()
+        if kbd is not None:
+            return kbd
+        time.sleep(2)
+
+
 def main():
     signal.signal(signal.SIGTERM, shutdown)
     signal.signal(signal.SIGINT, shutdown)
 
-    kbd = find_keyboard()
-    if kbd is None:
-        print(f"Keyboard '{KEYBOARD_NAME}' not found. Available devices:")
-        for path in evdev.list_devices():
-            dev = evdev.InputDevice(path)
-            print(f"  {dev.path}: {dev.name}")
-        sys.exit(1)
-
     load_model()
-    print(f"Listening on: {kbd.name} ({kbd.path})")
-    print(f"  F19 → BT profile toggle ({BT_TOGGLE_SCRIPT})")
-    print(f"  F24 → voice input toggle")
 
-    selector = DefaultSelector()
-    selector.register(kbd, EVENT_READ)
+    while True:
+        kbd = wait_for_keyboard()
+        print(f"Listening on: {kbd.name} ({kbd.path})")
+        print(f"  F19 → BT profile toggle ({BT_TOGGLE_SCRIPT})")
+        print(f"  F24 → voice input toggle")
 
-    try:
-        while True:
-            for key, mask in selector.select():
-                device = key.fileobj
-                for event in device.read():
-                    if event.type == ecodes.EV_KEY and event.value == 1:
-                        handle_key(event.code)
-    finally:
-        cleanup_recording()
-        selector.close()
+        selector = DefaultSelector()
+        selector.register(kbd, EVENT_READ)
+
+        try:
+            while True:
+                for key, mask in selector.select():
+                    device = key.fileobj
+                    for event in device.read():
+                        if event.type == ecodes.EV_KEY and event.value == 1:
+                            handle_key(event.code)
+        except OSError:
+            print(f"Device disconnected. Waiting for reconnection...")
+            cleanup_recording()
+            selector.close()
+            continue
+        finally:
+            cleanup_recording()
+            selector.close()
 
 
 if __name__ == "__main__":
