@@ -36,7 +36,7 @@ case "$current" in
         bt_sink=""
         for _ in $(seq 1 20); do
             sink_spec=$(pactl list sinks short 2>/dev/null | grep bluez)
-            if echo "$sink_spec" | grep -q "2ch 48000Hz"; then
+            if echo "$sink_spec" | grep -q "2ch"; then
                 bt_sink=$(echo "$sink_spec" | awk '{print $2}')
                 break
             fi
